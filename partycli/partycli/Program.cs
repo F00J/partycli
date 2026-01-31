@@ -12,14 +12,10 @@ namespace partycli
         {
             if (args.Length == 0)
             {
-                Console.WriteLine("Usage: partycli <command> [options] [<command> [options]]...");
-                Console.WriteLine("Available commands:");
-
-                CommandFactory factory = new CommandFactory();
-                foreach (string cmd in factory.GetAvailableCommands())
-                {
-                    Console.WriteLine($"  - {cmd}");
-                }
+                Console.WriteLine("To get and save all servers, use command: partycli.exe server_list");
+                Console.WriteLine("To get and save France servers, use command: partycli.exe server_list --france");
+                Console.WriteLine("To get and save servers that support TCP protocol, use command: partycli.exe server_list --TCP");
+                Console.WriteLine("To see saved list of servers, use command: partycli.exe server_list --local ");
 
                 Console.Read();
                 return;
@@ -69,11 +65,6 @@ namespace partycli
 
                 i = j;
             }
-
-            Console.WriteLine("To get and save all servers, use command: partycli.exe server_list");
-            Console.WriteLine("To get and save France servers, use command: partycli.exe server_list --france");
-            Console.WriteLine("To get and save servers that support TCP protocol, use command: partycli.exe server_list --TCP");
-            Console.WriteLine("To see saved list of servers, use command: partycli.exe server_list --local ");
 
             Console.Read();
         }
