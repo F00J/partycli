@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using partycli.Models;
+﻿using partycli.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,18 +7,21 @@ namespace partycli.Services
 {
     internal static class DisplayService
     {
-        internal static void DisplayList(string serverListString)
+        internal static void DisplayList(List<ServerDto> serverList)
         {
-            List<ServerModel> serverlist = JsonConvert.DeserializeObject<List<ServerModel>>(serverListString);
+            if (serverList is null)
+            {
+                throw new ArgumentNullException(nameof(serverList));
+            }
 
             Console.WriteLine("Server list: ");
 
-            for (int index = 0; index < serverlist.Count(); index++)
+            for (int index = 0; index < serverList.Count(); index++)
             {
-                Console.WriteLine("Name: " + serverlist[index].Name);
+                Console.WriteLine("Name: " + serverList[index].Name);
             }
 
-            Console.WriteLine("Total servers: " + serverlist.Count());
+            Console.WriteLine("Total servers: " + serverList.Count());
         }
     }
 }
