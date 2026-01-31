@@ -1,8 +1,5 @@
-﻿using Newtonsoft.Json;
-using partycli.Models;
-using partycli.Storage;
-using System;
-using System.Collections.Generic;
+﻿using System;
+using System.IO;
 
 namespace partycli.Logger
 {
@@ -10,25 +7,16 @@ namespace partycli.Logger
     {
         internal static void Log(string action)
         {
-            LogModel newLog = new LogModel
-            {
-                Action = action,
-                Time = DateTime.Now
-            };
+            string logPath 
+                = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                    "partycli",
+                    "log.txt");
 
-            List<LogModel> currentLog;
+            Directory.CreateDirectory(Path.GetDirectoryName(logPath));
 
-            if (!string.IsNullOrEmpty(Properties.Settings.Default.log))
-            {
-                currentLog = JsonConvert.DeserializeObject<List<LogModel>>(Properties.Settings.Default.log);
-                currentLog.Add(newLog);
-            }
-            else
-            {
-                currentLog = new List<LogModel> { newLog };
-            }
-
-            ConfigurationStorage.StoreValue("log", JsonConvert.SerializeObject(currentLog), false);
+            string logEntry = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} - {action}{Environment.NewLine}";
+            File.AppendAllText(logPath, logEntry);
         }
     }
 }

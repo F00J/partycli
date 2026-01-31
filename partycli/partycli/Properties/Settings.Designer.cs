@@ -34,17 +34,5 @@ namespace partycli.Properties {
                 this["serverlist"] = value;
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string log {
-            get {
-                return ((string)(this["log"]));
-            }
-            set {
-                this["log"] = value;
-            }
-        }
     }
 }
