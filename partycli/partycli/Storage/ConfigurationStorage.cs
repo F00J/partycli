@@ -20,7 +20,6 @@ namespace partycli.Storage
             {
                 Console.WriteLine("Error: Couldn't save " + name + ". Check if command was input correctly.");
             }
-
         }
     }
 }

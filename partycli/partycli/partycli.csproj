@@ -49,7 +49,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enums\States.cs" />
+    <Compile Include="Commands\BaseCommand.cs" />
+    <Compile Include="Commands\Config\ConfigCommand.cs" />
+    <Compile Include="Commands\ServerList\ServerListCommand.cs" />
+    <Compile Include="Enums\CLICommand.cs" />
+    <Compile Include="Factories\CommandFactory.cs" />
     <Compile Include="Logger\AppLogger.cs" />
     <Compile Include="Models\ServerModel.cs" />
     <Compile Include="Models\VpnServerQuery.cs" />
@@ -60,6 +64,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Services\DisplayService.cs" />
     <Compile Include="Services\NordVpnClient.cs" />
     <Compile Include="Storage\ConfigurationStorage.cs" />
   </ItemGroup>
@@ -71,5 +76,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
