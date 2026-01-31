@@ -20,72 +20,79 @@ namespace partycli
 
             foreach (string arg in args)
             {
-                if (currentState == States.none)
+                switch (currentState)
                 {
-                    if (arg == "server_list")
-                    {
-                        currentState = States.server_list;
-                        if (argIndex >= args.Count())
+                    case States.none:
                         {
-                            string serverList = NordVpnClient.GetAllServersListAsync();
-                            ConfigurationStorage.StoreValue("serverlist", serverList, false);
-                            AppLogger.Log("Saved new server list: " + serverList);
-                            DisplayList(serverList);
+                            if (arg == "server_list")
+                            {
+                                currentState = States.server_list;
+                                if (argIndex >= args.Count())
+                                {
+                                    string serverList = NordVpnClient.GetAllServersListAsync();
+                                    ConfigurationStorage.StoreValue("serverlist", serverList, false);
+                                    AppLogger.Log("Saved new server list: " + serverList);
+                                    DisplayList(serverList);
+                                }
+                            }
+                            if (arg == "config")
+                            {
+                                currentState = States.config;
+                            }
+
+                            break;
                         }
-                    }
-                    if (arg == "config")
-                    {
-                        currentState = States.config;
-                    }
-                }
-                else if (currentState == States.config)
-                {
-                    if (name == null)
-                    {
-                        name = arg;
-                    }
-                    else
-                    {
-                        ConfigurationStorage.StoreValue(ProccessName(name), arg);
-                        AppLogger.Log("Changed " + ProccessName(name) + " to " + arg);
-                        name = null;
-                    }
-                }
-                else if (currentState == States.server_list)
-                {
-                    if (arg == "--local")
-                    {
-                        if (!String.IsNullOrEmpty(Properties.Settings.Default.serverlist))
+
+                    case States.config:
+                        if (name == null)
                         {
-                            DisplayList(Properties.Settings.Default.serverlist);
+                            name = arg;
                         }
                         else
                         {
-                            Console.WriteLine("Error: There are no server data in local storage");
+                            ConfigurationStorage.StoreValue(ProccessName(name), arg);
+                            AppLogger.Log("Changed " + ProccessName(name) + " to " + arg);
+                            name = null;
                         }
-                    }
-                    else if (arg == "--france")
-                    {
-                        //france == 74
-                        //albania == 2
-                        //Argentina == 10
-                        VpnServerQuery query = new VpnServerQuery(null, 74, null, null, null, null);
-                        string serverList = NordVpnClient.GetAllServerByCountryListAsync(query.CountryId.Value); //France id == 74
-                        ConfigurationStorage.StoreValue("serverlist", serverList, false);
-                        AppLogger.Log("Saved new server list: " + serverList);
-                        DisplayList(serverList);
-                    }
-                    else if (arg == "--TCP")
-                    {
-                        //UDP = 3
-                        //Tcp = 5
-                        //Nordlynx = 35
-                        VpnServerQuery query = new VpnServerQuery(5, null, null, null, null, null);
-                        string serverList = NordVpnClient.GetAllServerByProtocolListAsync((int)query.Protocol.Value);
-                        ConfigurationStorage.StoreValue("serverlist", serverList, false);
-                        AppLogger.Log("Saved new server list: " + serverList);
-                        DisplayList(serverList);
-                    }
+                        break;
+                    case States.server_list:
+                        {
+                            if (arg == "--local")
+                            {
+                                if (!String.IsNullOrEmpty(Properties.Settings.Default.serverlist))
+                                {
+                                    DisplayList(Properties.Settings.Default.serverlist);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Error: There are no server data in local storage");
+                                }
+                            }
+                            else if (arg == "--france")
+                            {
+                                //france == 74
+                                //albania == 2
+                                //Argentina == 10
+                                VpnServerQuery query = new VpnServerQuery(null, 74, null, null, null, null);
+                                string serverList = NordVpnClient.GetAllServerByCountryListAsync(query.CountryId.Value); //France id == 74
+                                ConfigurationStorage.StoreValue("serverlist", serverList, false);
+                                AppLogger.Log("Saved new server list: " + serverList);
+                                DisplayList(serverList);
+                            }
+                            else if (arg == "--TCP")
+                            {
+                                //UDP = 3
+                                //Tcp = 5
+                                //Nordlynx = 35
+                                VpnServerQuery query = new VpnServerQuery(5, null, null, null, null, null);
+                                string serverList = NordVpnClient.GetAllServerByProtocolListAsync((int)query.Protocol.Value);
+                                ConfigurationStorage.StoreValue("serverlist", serverList, false);
+                                AppLogger.Log("Saved new server list: " + serverList);
+                                DisplayList(serverList);
+                            }
+
+                            break;
+                        }
                 }
 
                 argIndex++;
@@ -98,6 +105,7 @@ namespace partycli
                 Console.WriteLine("To get and save servers that support TCP protocol, use command: partycli.exe server_list --TCP");
                 Console.WriteLine("To see saved list of servers, use command: partycli.exe server_list --local ");
             }
+
             Console.Read();
         }
 

@@ -51,7 +51,6 @@
   <ItemGroup>
     <Compile Include="Enums\States.cs" />
     <Compile Include="Logger\AppLogger.cs" />
-    <Compile Include="Models\LogModel.cs" />
     <Compile Include="Models\ServerModel.cs" />
     <Compile Include="Models\VpnServerQuery.cs" />
     <Compile Include="Program.cs" />
