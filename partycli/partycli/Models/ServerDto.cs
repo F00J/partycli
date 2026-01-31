@@ -1,6 +1,6 @@
 namespace partycli.Models
 {
-    class ServerModel
+    class ServerDto
     {
         public string Name { get; set; }
         public int Load { get; set; }

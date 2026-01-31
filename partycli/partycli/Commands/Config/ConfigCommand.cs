@@ -1,7 +1,9 @@
-﻿using partycli.Enums;
+﻿using partycli.Clients.NordVpnClient;
+using partycli.Enums;
 using partycli.Logger;
 using partycli.Storage;
 using System;
+using System.Threading.Tasks;
 
 namespace partycli.Commands.Config
 {
@@ -9,13 +11,20 @@ namespace partycli.Commands.Config
     {
         internal override CLICommand CLICommand => CLICommand.Config;
 
-        internal override void Execute(string[] args)
+        public ConfigCommand(NordVpnClient nordVpnClient) 
+            : base(nordVpnClient)
+        {    
+        }
+
+        internal override async Task ExecuteAsync(string[] args)
         {
             string name = args[0];
             string value = args[1];
 
             ConfigurationStorage.StoreValue(name, value);
             AppLogger.Log("Changed " + name + " to " + value);
+
+            await Task.CompletedTask;
         }
 
         internal override bool ValidateArgs(string[] args)
