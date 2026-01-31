@@ -1,4 +1,5 @@
-﻿using partycli.Commands;
+﻿using partycli.Clients.NordVpnClient;
+using partycli.Commands;
 using partycli.Commands.Config;
 using partycli.Commands.ServerList;
 using partycli.Enums;
@@ -14,10 +15,12 @@ namespace partycli.Factories
 
         public CommandFactory()
         {
+            NordVpnClient nordVpnClient = new NordVpnClient();
+
             _commandMap = new Dictionary<string, Func<BaseCommand>>(StringComparer.OrdinalIgnoreCase)
             {
-                { "server_list", () => new ServerListCommand() },
-                { "config", () => new ConfigCommand() }
+                { "server_list", () => new ServerListCommand(nordVpnClient) },
+                { "config", () => new ConfigCommand(nordVpnClient) }
             };
 
             _stringToEnum = new Dictionary<string, CLICommand>(StringComparer.OrdinalIgnoreCase)

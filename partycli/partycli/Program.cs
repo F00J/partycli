@@ -3,12 +3,13 @@ using partycli.Factories;
 using partycli.Logger;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace partycli
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             if (args.Length == 0)
             {
@@ -53,7 +54,7 @@ namespace partycli
                 {
                     try
                     {
-                        command.Execute(commandArgs.ToArray());
+                        await command.ExecuteAsync(commandArgs.ToArray());
                         AppLogger.Log($"Successfully executed: {command.CLICommand}");
                     }
                     catch (Exception ex)
